@@ -1,0 +1,22 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: rabbitmq-scaledobject
+  namespace: demo
+spec:
+  scaleTargetRef:
+    name: example-consumer
+  pollingInterval: 30                               # Optional. Default: 30 seconds
+  cooldownPeriod: 180
+  idleReplicaCount: 0                               # Optional. Default: ignored, must be less than minReplicaCount
+  minReplicaCount: 1
+  maxReplicaCount: 50
+  triggers:
+  - type: rabbitmq
+    metadata:
+      host: amqp://demo:demo@rabbitmq.rabbitmq:5672/ # Optional. If not specified, it must be done by using TriggerAuthentication.
+      protocol: auto # Optional. Specifies protocol to use, either amqp or http, or auto to autodetect based on the `host` value. Default value is auto.
+      mode: QueueLength # QueueLength or MessageRate
+      value: "50000" # message backlog or publish/sec. target per instance
+      activationValue: "10000" # Optional. Activation threshold
+      queueName: example

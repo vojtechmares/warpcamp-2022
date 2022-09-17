@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-consumer
+spec:
+  selector:
+    matchLabels:
+      app: example-consumer
+  template:
+    metadata:
+      labels:
+        app: example-consumer
+    spec:
+      containers:
+      - name: example-consumer
+        imagePullPolicy: Always
+        image: docker.vmpkg.com/keda-demo-consumer:v1
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        env:
+        - name: AMQP_HOST
+          value: demo:demo@rabbitmq.rabbitmq:5672
