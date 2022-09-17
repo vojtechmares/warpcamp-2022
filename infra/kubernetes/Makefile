@@ -15,3 +15,7 @@ install-cert-manager:
 .PHONY: install-keda
 install-keda:
 	helm upgrade --install keda keda --repo https://kedacore.github.io/charts --namespace keda --create-namespace
+
+.PHONY: install-rabbitmq
+install-rabbitmq:
+	helm upgrade --install rabbitmq rabbitmq --repo https://charts.bitnami.com/bitnami --create-namespace --namespace rabbitmq --set auth.username=admin,auth.password=admin,auth.erlangCookie=secret
